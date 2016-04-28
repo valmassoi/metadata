@@ -14,12 +14,15 @@ app.get('/', (req, res) => {
   res.sendFile('/public/index.html')
 })
 app.post('/uploads', upload.single('file'), (req, res) => {
-  console.log(req.file)
-  res.json({
-    name: req.file.originalname,
-    size: req.file.size
-  })
-  clearUploads()
+  if (req.file){
+    res.json({
+      name: req.file.originalname,
+      size: req.file.size
+    })
+    clearUploads()
+  }
+  else
+    res.json({ error: "No file to upload, please browse for a file first." })
 })
 
 app.get("*", (req, res) => {
