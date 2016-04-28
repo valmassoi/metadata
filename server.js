@@ -4,7 +4,7 @@ const express = require('express')
 const http = require('http')
 const multer  = require('multer')
 const upload = multer({ dest: 'uploads/' })
-const fs = require('fs');
+const fs = require('fs')
 
 const app = express()
 
@@ -13,9 +13,8 @@ app.use(express.static(__dirname + '/public'))
 app.get('/', (req, res) => {
   res.sendFile('/public/index.html')
 })
-app.post('/uploads', upload.single('file'), function(req, res) {
-  // res.writeHead(200, {"Content-Type": "application/json"})
-  console.log(req.file);
+app.post('/uploads', upload.single('file'), (req, res) => {
+  console.log(req.file)
   res.json({
     name: req.file.originalname,
     size: req.file.size
@@ -29,10 +28,10 @@ app.get("*", (req, res) => {
 })
 
 function clearUploads(){
-  var path = __dirname + '/uploads/' ;
+  var path = __dirname + '/uploads/'
   if( fs.existsSync(path) ) {
-   fs.readdirSync(path).forEach(function(file,index){
-     var curPath = path + "/" + file
+   fs.readdirSync(path).forEach((file,index) => {
+     let curPath = path + "/" + file
      if(fs.lstatSync(curPath).isDirectory()) { // recurse
        deleteFolderRecursive(curPath)
      } else { // delete file
